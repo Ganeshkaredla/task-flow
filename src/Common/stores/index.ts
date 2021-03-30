@@ -1,7 +1,9 @@
 import AuthStore from '../../Authentication/stores/AuthStore'
+import TasksStore from '../../Taskflow/stores/TasksStore'
 
 export const isFixtures = true
 
 const authStore = new AuthStore()
 
-export default { authStore }
+const tasksStore = new TasksStore()
+export default { authStore, tasksStore }

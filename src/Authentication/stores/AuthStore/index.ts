@@ -9,7 +9,12 @@ import {
 import Config from '../../../Common/constants/EnvironmentConstants'
 import { fetchData } from '../../../Common/utils/APIUtils'
 import loginCredentials from '../../fixtures/loginCredentials.json'
-import { setAccessToken } from '../../utils/StorageUtils'
+import {
+   clearUserSession,
+   setAccessToken,
+   setProfileImage,
+   setUserName
+} from '../../utils/StorageUtils'
 import { endPoints } from '../endPoints'
 import UserProfile from '../models/UserProfile'
 import { LoginResponseType } from '../types'
@@ -26,12 +31,12 @@ class AuthStore {
    init(): void {
       this.loginAPIStatus = API_INITIAL
       this.loginAPIError = null
+      this.userProfile = new UserProfile({})
    }
 
    @action.bound
    setLoginAPIStatus(apiStatus: number): void {
       this.loginAPIStatus = apiStatus
-      console.log(apiStatus)
    }
 
    @action.bound
@@ -42,8 +47,9 @@ class AuthStore {
    @action.bound
    setLoginAPIResponse(response: LoginResponseType): void {
       setAccessToken(response.token.token)
+      setUserName(response.token.name)
+      setProfileImage(response.image)
       this.userProfile = new UserProfile(response)
-      console.log(response)
    }
 
    @action.bound
@@ -81,6 +87,7 @@ class AuthStore {
 
    @action.bound
    clearStore() {
+      clearUserSession()
       this.init()
    }
 }

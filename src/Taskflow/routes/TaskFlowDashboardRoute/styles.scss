@@ -1,0 +1,36 @@
+.createTask{
+    .baseModalStyles.baseModalStyles {
+    position: absolute;
+    border-radius: 8px;
+    background-color:#00000033 ;
+    box-shadow: 0 5px 10px 0 #00000033;
+    overflow: auto;
+    align-items: center;
+    width:auto;
+    align-self: center;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    max-height: 80vh;
+    overflow-y: auto;
+ }
+ 
+ .baseModalStyles.baseModalStyles:focus {
+    outline: none;
+ }
+ 
+ .baseModalOverlayStyles.baseModalOverlayStyles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #00000033;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width:auto;
+
+    overflow: auto;
+    z-index: 100000;
+  }
+ }

@@ -1,0 +1,15 @@
+.toast-success.toast-success {
+   text-align: center;
+   min-width: 315px;
+   height: 60px;
+   background-color: #71b91d;
+   border-radius: 5px;
+}
+
+.toast-failure.toast-failure {
+   text-align: center;
+   min-width: 315px;
+   height: 60px;
+   background-color: #ff8b7b;
+   border-radius: 5px;
+}

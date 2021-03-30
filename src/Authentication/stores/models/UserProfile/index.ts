@@ -1,24 +1,24 @@
 import { action, observable } from 'mobx'
-import { LoginResponseType } from '../../types'
+import { getProfileImageUrl, getUserName } from '../../../utils/StorageUtils'
 
 class UserProfile {
    @observable name!: string
    @observable profilePicUrl!: string
 
-   constructor(userDetails: LoginResponseType) {
+   constructor(userDetails) {
       this.init()
-      if (userDetails.token) {
+      if (userDetails && userDetails.token) {
          this.name = userDetails.token.name
       }
-      if (userDetails.image) {
+      if (userDetails && userDetails.image) {
          this.profilePicUrl = userDetails.image
       }
    }
 
    @action.bound
    init() {
-      this.name = ''
-      this.profilePicUrl = ''
+      this.name = getUserName() ?? ''
+      this.profilePicUrl = getProfileImageUrl() ?? ''
    }
 }
 export default UserProfile

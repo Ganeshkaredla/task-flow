@@ -1,5 +1,4 @@
 import { isFixtures } from '../../stores'
-import { resolveWithTimeout } from '../TestUtils'
 
 export function fetchData(
    url: string,
@@ -24,6 +23,8 @@ export function fetchData(
             onFailure(error)
          })
    } else {
-      resolveWithTimeout(onSuccess(fixturesData))
+      setTimeout(() => {
+         return onSuccess(fixturesData)
+      }, 2000)
    }
 }
