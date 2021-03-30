@@ -10,9 +10,7 @@ import './index.css'
 ReactDOM.render(
    <Suspense
       fallback={
-         <div className='suspense-loading-view'>
-            {/* <LoadingView /> */}
-         </div>
+         <div className='suspense-loading-view'>{/* <LoadingView /> */}</div>
       }
    >
       <App />

@@ -15,7 +15,7 @@
       "connectionLost": "Connection lost",
       "internetConnection": "Please check your internet connection",
       "validationErrorMessages": {
-         "fieldRequired": "Required"
+         "fieldRequired": "This field is required"
       },
       "fallbackUI": {
          "failureText": "We're having some trouble completing your request. We are looking into it."
