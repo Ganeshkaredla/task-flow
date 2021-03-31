@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
-import TaskModel from '../../stores/models/TaskModel'
-import TaskItem from '../TaskItem'
+import { observer } from 'mobx-react'
+import { observable } from 'mobx'
 
+import TaskItem from '../TaskItem'
+import './styles.scss'
+import TasksStore from '../../stores/TasksStore'
 import {
    TasksListContainer,
    TasksListHeader,
@@ -10,42 +13,79 @@ import {
    SearchBoxField,
    AddNewTaskButton,
    TasksHeadingItemsWrapper,
-   TasksListWrapper
+   TasksListWrapper,
+   TaskListItemWrapper,
+   SearchIcon
 } from './styledComponents'
 
 interface Props {
    handleAddTaskButton: Function
-   tasksList: Array<TaskModel>
+   tasksStore: TasksStore
 }
 
+@observer
 class TasksList extends Component<Props> {
-   renderTasksList = () => {
-      const { tasksList } = this.props
+   @observable searchValue: string
+
+   constructor(props) {
+      super(props)
+      this.searchValue = ''
+   }
+
+   handleSearchInput = (event): void => {
+      const { tasksStore } = this.props
+      tasksStore.setSearchValue(event.target.value.toLowerCase())
+   }
+
+   handleDeleteTask = (taskId): void => {
+      const { tasksStore } = this.props
+      tasksStore.deleteTaskAPI(taskId)
+   }
+
+   renderTasksList = (): React.ReactNode => {
+      const { tasksStore } = this.props
+      const { tasksListWithSearchValue } = tasksStore
       return (
-         <TasksListWrapper>
-            {tasksList.map(task => (
-               <TaskItem key={task.taskId} taskDetails={task} />
+         <TasksListWrapper className={'tasksList'}>
+            {tasksListWithSearchValue.map(task => (
+               <TaskListItemWrapper key={task.taskId}>
+                  <TaskItem
+                     taskDetails={task}
+                     handleDeleteTask={this.handleDeleteTask}
+                  />
+               </TaskListItemWrapper>
             ))}
          </TasksListWrapper>
       )
    }
 
-   render() {
+   renderTasksListHeader = () => {
       const { handleAddTaskButton } = this.props
+
+      return (
+         <TasksListHeader>
+            <TasksHeading>Tasks</TasksHeading>
+            <TasksHeadingItemsWrapper>
+               <SearchBoxWrapper>
+                  <SearchIcon src={'/images/search-icon.png'} />
+                  <SearchBoxField
+                     placeholder={'Search By Task Name'}
+                     onChange={this.handleSearchInput}
+                  />
+               </SearchBoxWrapper>
+               <AddNewTaskButton
+                  text={'+ New Task'}
+                  onClick={handleAddTaskButton}
+               />
+            </TasksHeadingItemsWrapper>
+         </TasksListHeader>
+      )
+   }
+
+   render() {
       return (
          <TasksListContainer>
-            <TasksListHeader>
-               <TasksHeading>Tasks</TasksHeading>
-               <TasksHeadingItemsWrapper>
-                  <SearchBoxWrapper>
-                     <SearchBoxField placeholder={'Search By Task Name'} />
-                  </SearchBoxWrapper>
-                  <AddNewTaskButton
-                     text={'+ New Task'}
-                     onClick={handleAddTaskButton}
-                  />
-               </TasksHeadingItemsWrapper>
-            </TasksListHeader>
+            {this.renderTasksListHeader()}
             {this.renderTasksList()}
          </TasksListContainer>
       )

@@ -25,6 +25,13 @@ class TasksStore {
    @observable createTaskAPIStatus!: number
    @observable createTaskAPIError!: Error | null
 
+   @observable deleteTaskAPIStatus!: number
+   @observable deleteTaskAPIError!: Error | null
+
+   @observable updateTaskAPIStatus!: number
+   @observable updateTaskAPIError!: Error | null
+
+   @observable searchValue!: string
    constructor() {
       this.init()
    }
@@ -33,6 +40,7 @@ class TasksStore {
    init() {
       this.latestTasks = []
       this.tasksList = []
+      this.searchValue = ''
    }
 
    @action.bound
@@ -67,6 +75,7 @@ class TasksStore {
          body: JSON.stringify({})
       }
       const url = `${Config.BASE_URL}${endPoints.dashboard}`
+      this.setDashboardTasksAPIStatus(API_FETCHING)
       await fetchData(
          url,
          options,
@@ -189,6 +198,88 @@ class TasksStore {
    }
 
    @action.bound
+   setDeleteTaskAPIStatus(apiStatus): void {
+      this.deleteTaskAPIStatus = apiStatus
+   }
+
+   @action.bound
+   setDeleteTaskAPIError(error): void {
+      this.deleteTaskAPIError = error
+   }
+
+   @action.bound
+   setDeleteTaskAPIResponse(response: TaskType) {
+      const tasksListAfterTaskDeleted = this.tasksList.filter(
+         task => task.taskId !== response.id
+      )
+      this.tasksList = tasksListAfterTaskDeleted
+   }
+
+   @action.bound
+   async deleteTaskAPI(
+      taskId: string,
+      onSuccess: Function = () => {},
+      onFailure: Function = () => {}
+   ) {
+      const options = {
+         method: apiMethods.get,
+         headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            Authorization: `Bearer ${getAccessToken()}`
+         },
+         body: JSON.stringify({})
+      }
+      const url = `${Config.BASE_URL}${endPoints.tasks}/${taskId}`
+
+      const mockResponseObject = this.getTaskBasedOnTaskId(taskId) ?? {}
+
+      await fetchData(
+         url,
+         options,
+         mockResponseObject,
+         response => {
+            this.setDeleteTaskAPIStatus(API_SUCCESS)
+            this.setDeleteTaskAPIResponse(response)
+            onSuccess()
+         },
+         error => {
+            this.setDeleteTaskAPIStatus(API_FAILED)
+            this.setDeleteTaskAPIError(error)
+            onFailure()
+         }
+      )
+   }
+
+   @action.bound
+   getTasksListWithSearchValue(searchValue = ''): Array<TaskModel> {
+      if (searchValue.length > 0) {
+         const filteredTasksList = this.tasksList.filter(eachTask => {
+            const taskName = eachTask.taskName.toLowerCase()
+            return taskName.includes(searchValue)
+         })
+         return filteredTasksList
+      }
+      return this.tasksList
+   }
+
+   @action.bound
+   getTaskBasedOnTaskId(taskId: string) {
+      const task = this.tasksList.find(task => task.taskId === taskId)
+      const mockTaskObject = {
+         id: task?.taskId,
+         name: task?.taskName,
+         completed: task?.completed
+      }
+      return mockTaskObject
+   }
+
+   @action.bound
+   setSearchValue(value): void {
+      this.searchValue = value
+   }
+
+   @action.bound
    clearStore() {
       this.init()
    }
@@ -214,6 +305,23 @@ class TasksStore {
          eachTask => eachTask.completed === true
       )
       return completedTasks.length
+   }
+
+   @computed
+   get tasksCompletionPercentage(): number {
+      return (this.tasksCompleted / this.totalTasks) * 100
+   }
+
+   @computed
+   get tasksListWithSearchValue(): Array<TaskModel> {
+      if (this.searchValue.length > 0) {
+         const filteredTasksList = this.tasksList.filter(eachTask => {
+            const taskName = eachTask.taskName.toLowerCase()
+            return taskName.includes(this.searchValue)
+         })
+         return filteredTasksList
+      }
+      return this.tasksList
    }
 }
 

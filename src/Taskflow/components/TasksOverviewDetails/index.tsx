@@ -1,3 +1,4 @@
+import { observer } from 'mobx-react'
 import React, { Component } from 'react'
 import TasksStore from '../../stores/TasksStore'
 import CompletedTasksCard from '../CompletedTasksCard'
@@ -10,10 +11,16 @@ interface Props {
    tasksStore: TasksStore
 }
 
+@observer
 class TasksOverviewDetails extends Component<Props> {
    render() {
       const { tasksStore } = this.props
-      const { totalTasks, tasksCompleted, latestCreatedTasks } = tasksStore
+      const {
+         totalTasks,
+         tasksCompleted,
+         latestCreatedTasks,
+         tasksCompletionPercentage
+      } = tasksStore
       return (
          <Container>
             <CompletedTasksCard
@@ -21,7 +28,9 @@ class TasksOverviewDetails extends Component<Props> {
                completedTasks={tasksCompleted}
             />
             <LatestTasksCard latestCreatedTasks={latestCreatedTasks} />
-            <CompletionPercentageChartCard />
+            <CompletionPercentageChartCard
+               percentage={tasksCompletionPercentage}
+            />
          </Container>
       )
    }

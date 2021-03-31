@@ -73,15 +73,12 @@ class TaskFlowDashboardRoute extends Component<Props> {
       <TasksOverviewDetails tasksStore={this.getTasksStore()} />
    )
 
-   renderTasksList = (): React.ReactNode => {
-      const { tasksList } = this.getTasksStore()
-      return (
-         <TasksList
-            tasksList={tasksList}
-            handleAddTaskButton={this.handleAddTaskModal}
-         />
-      )
-   }
+   renderTasksList = (): React.ReactNode => (
+      <TasksList
+         tasksStore={this.getTasksStore()}
+         handleAddTaskButton={this.handleAddTaskModal}
+      />
+   )
 
    renderTasksDetails = (): React.ReactNode => (
       <>

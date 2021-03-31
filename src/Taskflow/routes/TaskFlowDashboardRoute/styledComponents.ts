@@ -5,7 +5,7 @@ import { desktop } from '../../../Common/utils/MixinUtils'
 export const Container = styled.div`
    display: flex;
    flex-direction: column;
-   height: 100vh;
+   min-height: 100vh;
    width: 100%;
    background-color: ${Colors.solitude};
    ${desktop} {

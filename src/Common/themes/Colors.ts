@@ -19,6 +19,8 @@ const colors = {
    foggyBlack: '#00000033',
    lynch: '#6D8187',
    breakerBay: '#537178',
-   submarine: '#8F9EA2'
+   submarine: '#8F9EA2',
+   gainsboro: '#E8E8E8',
+   porcelain: '#E8ECEC'
 }
 export default colors
