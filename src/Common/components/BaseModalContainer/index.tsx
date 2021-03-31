@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import ReactModal from 'react-modal'
 
+import CloseIcon from '../../icons/CloseIcon'
 import Colors from '../../themes/Colors'
 
 import { CloseIconWrapper } from './styledComponents'
@@ -68,7 +69,9 @@ class BaseModalContainer extends Component<Props, State> {
             {...other}
          >
             {hideCloseIcon ? null : (
-               <CloseIconWrapper onClick={this.closeModal}>X</CloseIconWrapper>
+               <CloseIconWrapper onClick={this.closeModal}>
+                  <CloseIcon />
+               </CloseIconWrapper>
             )}
 
             {children}
