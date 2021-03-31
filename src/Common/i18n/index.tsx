@@ -27,7 +27,7 @@ i18n
       }
    )
 
-i18n.loadNamespaces(['common', 'contentManagement', 'userProfile'], err => {
+i18n.loadNamespaces(['common'], err => {
    if (err) {
       console.log(err)
    }

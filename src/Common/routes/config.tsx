@@ -5,7 +5,6 @@ import { LOGIN_SCREEN_PATH } from '../../Authentication/constants/NavigationCons
 import { HOME_SCREEN_PATH } from '../constants/NavigationConstants'
 import { ProtectedRoute } from '../utils/RouteUtils'
 // import PageNotFound404 from '../../Common/components/PageNotFound404'
-// import userProfileRoutes from '../../UserProfile/routes'
 
 const LoginPage = lazy(() =>
    import('../../Authentication/routes/LoginScreenRoute')
@@ -19,6 +18,7 @@ export const routes = () => (
       <Switch>
          <Route exact path={LOGIN_SCREEN_PATH} component={LoginPage} />
          <ProtectedRoute
+            exact
             path={HOME_SCREEN_PATH}
             component={TaskFlowDashboardRoute}
          />

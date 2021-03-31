@@ -18,11 +18,11 @@ class CustomTag extends Component<CustomTagProps> {
       this.inputRef = React.createRef()
    }
 
-   focus = () => {
+   focus = (): void => {
       this.inputRef.current.focus()
    }
 
-   render() {
+   render(): React.ReactNode {
       const { tagName: Tag, ...otherProps } = this.props
       return <Tag ref={this.inputRef} {...otherProps} />
    }

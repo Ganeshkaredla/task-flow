@@ -1,5 +1,7 @@
 import { observer } from 'mobx-react'
 import React, { Component } from 'react'
+import { withTranslation, WithTranslation } from 'react-i18next' // eslint-disable-line
+
 import TaskModel from '../../stores/models/TaskModel'
 
 import {
@@ -9,18 +11,18 @@ import {
    TaskItem
 } from './styledComponents'
 
-interface Props {
+interface Props extends WithTranslation {
    latestCreatedTasks: Array<TaskModel>
 }
 
 @observer
 class LatestTasksCard extends Component<Props> {
-   render() {
-      const { latestCreatedTasks } = this.props
+   render(): React.ReactNode {
+      const { t, latestCreatedTasks } = this.props
       return (
          <CardContainer>
             <LatestCreatedTasksText>
-               Latest Created tasks
+               {t('taskflow.latestCreatedTasks')}
             </LatestCreatedTasksText>
             <LatestCreatedTasksList>
                {latestCreatedTasks.map(each => (
@@ -34,4 +36,4 @@ class LatestTasksCard extends Component<Props> {
    }
 }
 
-export default LatestTasksCard
+export default withTranslation()(LatestTasksCard)

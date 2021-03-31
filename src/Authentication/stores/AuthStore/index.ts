@@ -1,13 +1,16 @@
 import { observable, action } from 'mobx'
 import {
-   apiMethods,
    API_FAILED,
    API_FETCHING,
    API_INITIAL,
    API_SUCCESS
 } from '../../../Common/constants/APIConstants'
 import Config from '../../../Common/constants/EnvironmentConstants'
-import { fetchData } from '../../../Common/utils/APIUtils'
+import {
+   fetchData,
+   getFetchOptionsWithoutAuth
+} from '../../../Common/utils/APIUtils'
+
 import loginCredentials from '../../fixtures/loginCredentials.json'
 import {
    clearUserSession,
@@ -15,6 +18,7 @@ import {
    setProfileImage,
    setUserName
 } from '../../utils/StorageUtils'
+
 import { endPoints } from '../endPoints'
 import UserProfile from '../models/UserProfile'
 import { LoginResponseType } from '../types'
@@ -58,14 +62,8 @@ class AuthStore {
          apiKey: userId,
          name: userName
       }
-      const options = {
-         method: apiMethods.post,
-         headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json'
-         },
-         body: JSON.stringify(requestObject)
-      }
+      const options = getFetchOptionsWithoutAuth(requestObject)
+
       const url = `${Config.BASE_URL}${endPoints.login}`
       this.setLoginAPIStatus(API_FETCHING)
       await fetchData(
@@ -86,9 +84,9 @@ class AuthStore {
    }
 
    @action.bound
-   clearStore() {
-      clearUserSession()
+   clearStore(): void {
       this.init()
+      clearUserSession()
    }
 }
 

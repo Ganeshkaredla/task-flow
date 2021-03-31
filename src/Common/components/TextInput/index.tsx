@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { observer } from 'mobx-react'
-import { computed } from 'mobx'
+import { computed, observable } from 'mobx'
 
 import BaseInput from './BaseInput'
 
@@ -8,30 +8,30 @@ import { InputProps } from './types'
 
 @observer
 class TextInput extends Component<InputProps> {
-   inputRef
+   @observable inputRef
 
    constructor(props) {
       super(props)
       this.inputRef = React.createRef()
    }
 
-   validateInput = () => {
+   validateInput = (): void => {
       this.inputRef.current.validateInput()
    }
 
-   resetErrorMessage = () => {
+   resetErrorMessage = (): void => {
       this.inputRef.current.setError('')
    }
 
-   onBlur = () => {
+   onBlur = (): void => {
       this.inputRef.current.onBlur()
    }
 
-   onFocus = () => {
+   onFocus = (): void => {
       this.inputRef.current.onFocus()
    }
 
-   focus = () => {
+   focus = (): void => {
       this.inputRef.current.focus()
    }
 
@@ -39,7 +39,7 @@ class TextInput extends Component<InputProps> {
       return this.inputRef.current.isError()
    }
 
-   render() {
+   render(): React.ReactNode {
       return <BaseInput ref={this.inputRef} {...this.props} />
    }
 }

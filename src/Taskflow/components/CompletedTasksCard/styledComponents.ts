@@ -5,7 +5,7 @@ import {
    Typo64CornflowerBlueMontserratMediumText
 } from '../../../Common/styleGuide/Typos'
 import Colors from '../../../Common/themes/Colors'
-import { desktop } from '../../../Common/utils/MixinUtils'
+import { minDeviceWidth } from '../../../Common/utils/MixinUtils'
 
 export const CardContainer = styled.div`
    display: flex;
@@ -17,7 +17,7 @@ export const CardContainer = styled.div`
    background-color: ${Colors.white};
    box-shadow: 0px 3px 6px ${Colors.lightShadow};
    margin-top: 8px;
-   ${desktop} {
+   ${minDeviceWidth(1024)} {
       width: 30%;
       border-radius: 12px;
    }

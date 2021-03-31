@@ -1,22 +1,23 @@
 import React, { Component } from 'react'
+import { withTranslation, WithTranslation } from 'react-i18next' // eslint-disable-line
 import {
    CardContainer,
    NoTasksText,
    AddNewTaskButton
 } from './styledComponents'
 
-interface Props {
+interface Props extends WithTranslation {
    handleAddTaskModel: Function
 }
 
 class NoTasksCard extends Component<Props> {
-   render() {
-      const { handleAddTaskModel } = this.props
+   render(): React.ReactNode {
+      const { t, handleAddTaskModel } = this.props
       return (
          <CardContainer>
-            <NoTasksText>You have no task</NoTasksText>
+            <NoTasksText>{t('taskflow.noTaskText')}</NoTasksText>
             <AddNewTaskButton
-               text={'+ New Task'}
+               text={t('taskflow.addNewTask')}
                onClick={handleAddTaskModel}
             />
          </CardContainer>
@@ -24,4 +25,4 @@ class NoTasksCard extends Component<Props> {
    }
 }
 
-export default NoTasksCard
+export default withTranslation()(NoTasksCard)

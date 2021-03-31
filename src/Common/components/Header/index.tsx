@@ -1,5 +1,7 @@
 import { observer } from 'mobx-react'
 import React, { Component } from 'react'
+import { withTranslation, WithTranslation } from 'react-i18next' // eslint-disable-line
+
 import UserProfile from '../../../Authentication/stores/models/UserProfile'
 
 import {
@@ -10,21 +12,25 @@ import {
    LogoutButton
 } from './styledComponents'
 
-interface Props {
+interface Props extends WithTranslation {
    userProfile: UserProfile
    handleLogout: Function
 }
 
 @observer
 class Header extends Component<Props> {
-   handleLogout = () => {
+   handleLogout = (): void => {
       const { handleLogout } = this.props
       handleLogout()
    }
 
    renderLogoutButton = (): React.ReactNode => {
-      const { handleLogout } = this.props
-      return <LogoutButton onClick={handleLogout}>Logout</LogoutButton>
+      const { handleLogout, t } = this.props
+      return (
+         <LogoutButton onClick={handleLogout}>
+            {t('loginForm.logout')}
+         </LogoutButton>
+      )
    }
 
    renderProfileImageAndName = (): React.ReactNode => {
@@ -32,13 +38,13 @@ class Header extends Component<Props> {
       const { profilePicUrl, name } = userProfile
       return (
          <UserDetailsWrapper>
-            <ProfileImage src={profilePicUrl} alt={'img'} />
+            <ProfileImage src={profilePicUrl} alt={'profile-pic'} />
             <UserName>{name}</UserName>
          </UserDetailsWrapper>
       )
    }
 
-   render() {
+   render(): React.ReactNode {
       return (
          <Container>
             {this.renderProfileImageAndName()}
@@ -48,4 +54,4 @@ class Header extends Component<Props> {
    }
 }
 
-export default Header
+export default withTranslation()(Header)

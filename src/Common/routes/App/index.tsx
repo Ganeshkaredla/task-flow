@@ -9,7 +9,7 @@ import { ToastContainer } from 'react-toastify'
 
 import i18n from '../../i18n'
 import stores from '../../stores'
-import Routes from '..'
+import Routes from '../index'
 
 interface Props extends WithTranslation {
    children?: any
@@ -17,7 +17,7 @@ interface Props extends WithTranslation {
 
 @observer
 class App extends React.Component<Props> {
-   render() {
+   render(): React.ReactNode {
       return (
          <Provider {...stores}>
             <I18nextProvider i18n={i18n}>

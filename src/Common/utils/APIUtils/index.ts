@@ -1,3 +1,5 @@
+import { getAccessToken } from '../../../Authentication/utils/StorageUtils'
+import { apiMethods } from '../../constants/APIConstants'
 import { isFixtures } from '../../stores'
 
 export function fetchData(
@@ -12,9 +14,8 @@ export function fetchData(
          .then(function(response) {
             if (response.ok) {
                return response.json()
-            } else {
-               throw new Error(response.statusText)
             }
+            throw new Error(response.statusText)
          })
          .then(function(jsonData) {
             onSuccess(jsonData)
@@ -23,8 +24,37 @@ export function fetchData(
             onFailure(error)
          })
    } else {
-      setTimeout(() => {
-         return onSuccess(fixturesData)
-      }, 2000)
+      setTimeout(() => onSuccess(fixturesData), 500)
    }
+}
+
+export function getFetchOptionsWithoutAuth(
+   requestObject: any = {},
+   methodType: string = apiMethods.post
+) {
+   const options = {
+      body: JSON.stringify(requestObject),
+      method: methodType,
+      headers: {
+         'Content-Type': 'application/json',
+         Accept: 'application/json'
+      }
+   }
+   return options
+}
+
+export function getFetchOptionsWithAuth(
+   requestObject: any = {},
+   methodType: string = apiMethods.post
+) {
+   const options = {
+      body: JSON.stringify(requestObject),
+      method: methodType,
+      headers: {
+         'Content-Type': 'application/json',
+         Accept: 'application/json',
+         Authorization: `Bearer ${getAccessToken()}`
+      }
+   }
+   return options
 }

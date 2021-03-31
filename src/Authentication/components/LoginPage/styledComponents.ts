@@ -1,12 +1,11 @@
 import styled from 'styled-components'
+
 import { Typo20DarkGreenMontserratBoldText } from '../../../Common/styleGuide/Typos'
 import Colors from '../../../Common/themes/Colors'
 
-export const Container = styled.div`
+export const Container = styled.form`
    display: flex;
    flex-direction: column;
-   /* justify-content:center;
-    align-items:center; */
    min-height: 249px;
    width: 296px;
    background-color: ${Colors.white};
@@ -18,6 +17,7 @@ export const Container = styled.div`
 
 export const HeadingText = styled(Typo20DarkGreenMontserratBoldText)`
    display: flex;
-   justify-content: flex-start;
    width: 100%;
+   justify-content: flex-start;
+   text-transform: capitalize;
 `

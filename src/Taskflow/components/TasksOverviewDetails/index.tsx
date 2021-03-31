@@ -1,6 +1,8 @@
-import { observer } from 'mobx-react'
 import React, { Component } from 'react'
+import { observer } from 'mobx-react'
+
 import TasksStore from '../../stores/TasksStore'
+
 import CompletedTasksCard from '../CompletedTasksCard'
 import CompletionPercentageChartCard from '../CompletionPercentageChartCard'
 import LatestTasksCard from '../LatestTasksCard'
@@ -13,7 +15,7 @@ interface Props {
 
 @observer
 class TasksOverviewDetails extends Component<Props> {
-   render() {
+   render(): React.ReactNode {
       const { tasksStore } = this.props
       const {
          totalTasks,

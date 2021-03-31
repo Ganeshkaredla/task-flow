@@ -15,7 +15,6 @@
       "eslint-plugin-import": "2.18.2",
       "eslint-plugin-react": "7.16.0",
       "glamor": "2.20.40",
-      "husky": "3.1.0",
       "i18next": "19.0.1",
       "i18next-xhr-backend": "3.2.2",
       "js-cookie": "2.2.1",
@@ -26,15 +25,10 @@
       "node-sass": "4.14.1",
       "react": "^16.12.0",
       "react-circular-progressbar": "^2.0.4",
-      "react-countdown-now": "2.1.2",
-      "react-datepicker": "2.10.1",
       "react-dom": "^16.12.0",
-      "react-horizontal-scrolling-menu": "0.7.3",
       "react-i18next": "11.2.2",
-      "react-infinite-scroll-component": "5.0.3",
       "react-loader-spinner": "3.1.5",
       "react-modal": "3.11.1",
-      "react-onclickoutside": "6.9.0",
       "react-router-dom": "5.1.2",
       "react-scripts": "3.2.0",
       "react-toastify": "5.4.1",
@@ -44,10 +38,8 @@
       "yarnhook": "0.4.3"
    },
    "scripts": {
-      "e2e:start": "yarn run cypress open",
       "start": "react-scripts start",
       "build": "react-scripts build",
-      "build:staging": "env-cmd -f .env.staging npm run build",
       "test": "IS_JEST=true react-scripts test --silent",
       "test:ci": "yarn test --watchAll=false --silent",
       "eject": "react-scripts eject",
@@ -93,18 +85,9 @@
       "@typescript-eslint/eslint-plugin": "2.3.0",
       "@typescript-eslint/parser": "2.8.0",
       "babel-eslint": "10.0.3",
-      "cypress": "3.8.0",
       "eslint": "6.4.0",
       "eslint-config-prettier": "6.3.0",
       "eslint-plugin-prettier": "3.1.0",
       "prettier": "1.19.1"
-   },
-   "husky": {
-      "hooks": {
-         "pre-push": "yarn test:ci",
-         "pre-commit": "lock-file-generator && madge --format es6 --circular src/ && lint-staged && tsc --noEmit --skipLibCheck  ",
-         "post-merge": "yarnhook",
-         "post-rewrite": "yarnhook"
-      }
    }
 }

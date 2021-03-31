@@ -20,7 +20,7 @@ interface Props {
 
 @observer
 class LoadingWrapperWithFailure extends React.Component<Props> {
-   render() {
+   render(): React.ReactNode {
       const {
          apiStatus,
          renderSuccessUI: RenderSuccessUI,

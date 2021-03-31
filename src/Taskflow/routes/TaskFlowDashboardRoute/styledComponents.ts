@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import Colors from '../../../Common/themes/Colors'
-import { desktop } from '../../../Common/utils/MixinUtils'
+import { minDeviceWidth } from '../../../Common/utils/MixinUtils'
 
 export const Container = styled.div`
    display: flex;
@@ -8,24 +8,25 @@ export const Container = styled.div`
    min-height: 100vh;
    width: 100%;
    background-color: ${Colors.solitude};
-   ${desktop} {
+   ${minDeviceWidth(1024)} {
       align-items: center;
    }
 `
 export const NoTasksCardWrapper = styled.div`
-   ${desktop} {
+   ${minDeviceWidth(1024)} {
       display: flex;
       justify-content: center;
       align-items: center;
+      height: 80vh;
       width: 100%;
-      height: 100%;
    }
 `
 export const TasksDetailsWrapper = styled.div`
    display: flex;
    flex-direction: column;
    width: 100%;
-   ${desktop} {
+   height: 100%;
+   ${minDeviceWidth(1024)} {
       margin-top: 14px;
       width: 80%;
    }

@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+
 import { Typo16LynchMontserratMedium } from '../../styleGuide/Typos'
 import Colors from '../../themes/Colors'
 
@@ -34,4 +35,6 @@ export const UserDetailsWrapper = styled.div`
    overflow: hidden;
    margin-right: 16px;
 `
-export const LogoutButton = styled(Typo16LynchMontserratMedium)``
+export const LogoutButton = styled(Typo16LynchMontserratMedium)`
+   cursor: pointer;
+`

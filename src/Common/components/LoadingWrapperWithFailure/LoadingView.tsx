@@ -1,11 +1,10 @@
 import React from 'react'
-
-import Loader from '../../Icons/Loader'
+import Loader from '../Loader'
 
 import { LoadingViewContainer } from './styledComponents'
 
 class LoadingView extends React.Component {
-   render() {
+   render(): React.ReactNode {
       return (
          <LoadingViewContainer>
             <Loader />

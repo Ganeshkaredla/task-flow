@@ -1,6 +1,8 @@
+import React, { Component } from 'react'
 import { observable } from 'mobx'
 import { observer } from 'mobx-react'
-import React, { Component } from 'react'
+import { withTranslation, WithTranslation } from 'react-i18next' // eslint-disable-line
+
 import TextInput from '../../../Common/components/TextInput'
 import { validateEmpty } from '../../../Common/utils/ValidationUtils'
 
@@ -10,7 +12,7 @@ import {
    AddNewTaskText
 } from './styledComponents'
 
-interface Props {
+interface Props extends WithTranslation {
    handleAddTaskButton: Function
    createTaskAPIStatus: number
 }
@@ -23,6 +25,10 @@ class CreateNewTaskCard extends Component<Props> {
       super(props)
       this.taskName = ''
       this.taskNameFieldRef = React.createRef()
+   }
+
+   componentDidMount(): void {
+      this.taskNameFieldRef?.current.focus()
    }
 
    validateTaskName = () => validateEmpty(this.taskName)
@@ -42,19 +48,19 @@ class CreateNewTaskCard extends Component<Props> {
       }
    }
 
-   render() {
-      const { createTaskAPIStatus } = this.props
+   render(): React.ReactNode {
+      const { t, createTaskAPIStatus } = this.props
       return (
          <CardContainer>
-            <AddNewTaskText>+ New Task</AddNewTaskText>
+            <AddNewTaskText>{t('taskflow.addNewTask')}</AddNewTaskText>
             <TextInput
                ref={this.taskNameFieldRef}
-               placeholder={'Task Name'}
+               placeholder={t('taskflow.taskName')}
                onChange={this.handleTaskNameChange}
                validate={this.validateTaskName}
             />
             <AddNewTaskButton
-               text={'+ New Task '}
+               text={t('taskflow.addNewTask')}
                onClick={this.handleAddTaskButton}
                apiStatus={createTaskAPIStatus}
             />
@@ -63,4 +69,4 @@ class CreateNewTaskCard extends Component<Props> {
    }
 }
 
-export default CreateNewTaskCard
+export default withTranslation()(CreateNewTaskCard)

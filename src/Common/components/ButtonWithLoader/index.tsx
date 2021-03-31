@@ -5,7 +5,7 @@ import Colors from '../../themes/Colors'
 import Loader from '../Loader'
 
 import { StyledButton, StyledText } from './styledComponents'
-import './styles.css'
+import './styles.scss'
 
 export interface ButtonWithLoaderProps {
    text: string
@@ -62,7 +62,7 @@ class ButtonWithLoader extends React.Component<ButtonWithLoaderProps> {
       )
    }
 
-   render() {
+   render(): React.ReactNode {
       const { onClick, disabled, className, id, ...otherProps } = this.props
       return (
          <StyledButton

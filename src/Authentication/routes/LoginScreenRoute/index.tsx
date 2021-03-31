@@ -2,13 +2,16 @@ import { inject, observer } from 'mobx-react'
 import React, { Component } from 'react'
 import { History } from 'history'
 
+import { withTranslation, WithTranslation } from 'react-i18next' // eslint-disable-line
+import { navigateToHomePage } from '../../../Common/utils/NavigationUtils'
+
 import LoginPage from '../../components/LoginPage'
 import AuthStore from '../../stores/AuthStore'
-import { Container } from './styledComponents'
-import { navigateToHomePage } from '../../../Common/utils/NavigationUtils'
 import { getAccessToken } from '../../utils/StorageUtils'
 
-interface Props {
+import { showFailureBottomCenterToast } from '../../../Common/utils/ToastUtils'
+import { Container } from './styledComponents'
+interface Props extends WithTranslation {
    history: History
 }
 
@@ -19,33 +22,36 @@ interface InjectedProps extends Props {
 @inject('authStore')
 @observer
 class LoginScreenRoute extends Component<Props> {
-   componentDidMount() {
+   componentDidMount(): void {
       if (getAccessToken()) {
          this.navigateToDashboardPage()
       }
    }
 
-   getInjectedProps = () => this.props as InjectedProps
+   getInjectedProps = (): InjectedProps => this.props as InjectedProps
 
-   getAuthStore = () => this.getInjectedProps().authStore
+   getAuthStore = (): AuthStore => this.getInjectedProps().authStore
 
-   navigateToDashboardPage = () => {
+   navigateToDashboardPage = (): void => {
       const { history } = this.props
       navigateToHomePage(history)
    }
 
-   onLoginSuccess = error => {
+   onLoginSuccess = (): void => {
       this.navigateToDashboardPage()
    }
 
-   onLoginFailure = () => {}
+   onLoginFailure = (): void => {
+      const { t } = this.props
+      showFailureBottomCenterToast(t('errorViewTitle'))
+   }
 
-   handleLogin = (userId, userName) => {
+   handleLogin = (userId, userName): void => {
       const { loginAPI } = this.getAuthStore()
       loginAPI(userId, userName, this.onLoginSuccess, this.onLoginFailure)
    }
 
-   render() {
+   render(): React.ReactNode {
       const { loginAPIStatus } = this.getAuthStore()
       return (
          <Container>
@@ -58,4 +64,4 @@ class LoginScreenRoute extends Component<Props> {
    }
 }
 
-export default LoginScreenRoute
+export default withTranslation()(LoginScreenRoute)

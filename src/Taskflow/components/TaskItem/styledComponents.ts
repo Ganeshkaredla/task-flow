@@ -1,8 +1,9 @@
 import styled from 'styled-components'
+
 import TextInput from '../../../Common/components/TextInput'
 import { Typo20CornflowerBlueMontserratMediumText } from '../../../Common/styleGuide/Typos'
 import Colors from '../../../Common/themes/Colors'
-import { desktop } from '../../../Common/utils/MixinUtils'
+import { minDeviceWidth } from '../../../Common/utils/MixinUtils'
 
 export const Container = styled.div`
    display: flex;
@@ -13,7 +14,7 @@ export const Container = styled.div`
    justify-content: space-between;
    box-sizing: border-box;
    padding: 0px 16px 0px 16px;
-   ${desktop} {
+   ${minDeviceWidth(1024)} {
       padding: 0px 24px 0px 24px;
    }
 `
@@ -23,7 +24,7 @@ export const TaskDetailsWrapper = styled.div`
    justify-content: flex-start;
    align-items: center;
    width: 80%;
-   ${desktop} {
+   ${minDeviceWidth(1024)} {
       width: 90%;
    }
 `
@@ -39,6 +40,7 @@ export const CheckBox = styled.input`
 
 export const TextNameWrapper = styled.div`
    width: 100%;
+   padding-left: 16px;
    overflow: auto;
 `
 
@@ -49,18 +51,20 @@ export const TaskNameText = styled(Typo20CornflowerBlueMontserratMediumText)`
       props.isCompleted ? Colors.submarine : Colors.cornflowerBlue};
    text-decoration: ${props => (props.isCompleted ? 'line-through' : 'none')};
    text-decoration-thickness: 2px;
+   padding: 24px 0px 24px 0px;
 `
 
 export const EditableTaskName = styled(TextInput)`
+   display: ${props => (props.isHidden ? 'flex' : 'none')};
    background-color: ${Colors.white};
    font-size: 20px;
-   flex-wrap: wrap;
-   word-wrap: break-word;
-   word-break: break-all;
-
+   font-weight: 500;
+   color: ${props =>
+      props.isCompleted ? Colors.submarine : Colors.cornflowerBlue};
    outline: none;
    border: none;
    margin-top: 0px;
+   padding-left: 0px;
 `
 export const TaskButtonsWrapper = styled.div`
    width: 48px;
@@ -68,9 +72,11 @@ export const TaskButtonsWrapper = styled.div`
 export const DeleteIcon = styled.img`
    height: 18px;
    width: 16px;
+   cursor: pointer;
 `
 export const EditIcon = styled.img`
    height: 16px;
    width: 16px;
    margin-right: 16px;
+   cursor: pointer;
 `

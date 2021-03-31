@@ -1,10 +1,17 @@
 import React, { Component } from 'react'
 import { observer } from 'mobx-react'
 import { observable } from 'mobx'
+import { withTranslation, WithTranslation } from 'react-i18next' // eslint-disable-line
+
+import {
+   showFailureBottomCenterToast,
+   showSuccessBottomCenterToast
+} from '../../../Common/utils/ToastUtils'
+
+import TasksStore from '../../stores/TasksStore'
 
 import TaskItem from '../TaskItem'
-import './styles.scss'
-import TasksStore from '../../stores/TasksStore'
+
 import {
    TasksListContainer,
    TasksListHeader,
@@ -15,10 +22,12 @@ import {
    TasksHeadingItemsWrapper,
    TasksListWrapper,
    TaskListItemWrapper,
-   SearchIcon
+   SearchIcon,
+   NoTasksFoundText
 } from './styledComponents'
+import './styles.scss'
 
-interface Props {
+interface Props extends WithTranslation {
    handleAddTaskButton: Function
    tasksStore: TasksStore
 }
@@ -37,44 +46,67 @@ class TasksList extends Component<Props> {
       tasksStore.setSearchValue(event.target.value.toLowerCase())
    }
 
-   handleDeleteTask = (taskId): void => {
-      const { tasksStore } = this.props
-      tasksStore.deleteTaskAPI(taskId)
+   onDeleteSuccess = (): void => {
+      const { t } = this.props
+      showSuccessBottomCenterToast(`${t('taskflow.taskDeleteToastText')}`)
    }
 
-   renderTasksList = (): React.ReactNode => {
+   onDeleteFailure = (): void => {
+      const { t } = this.props
+      showFailureBottomCenterToast(`${t('common.errorViewTitle')}`)
+   }
+
+   handleDeleteTask = (taskId): void => {
       const { tasksStore } = this.props
-      const { tasksListWithSearchValue } = tasksStore
-      return (
-         <TasksListWrapper className={'tasksList'}>
-            {tasksListWithSearchValue.map(task => (
-               <TaskListItemWrapper key={task.taskId}>
-                  <TaskItem
-                     taskDetails={task}
-                     handleDeleteTask={this.handleDeleteTask}
-                  />
-               </TaskListItemWrapper>
-            ))}
-         </TasksListWrapper>
+      tasksStore.deleteTaskAPI(
+         taskId,
+         this.onDeleteSuccess,
+         this.onDeleteFailure
       )
    }
 
-   renderTasksListHeader = () => {
-      const { handleAddTaskButton } = this.props
+   handleUpdateTask = (taskId): void => {
+      const { tasksStore } = this.props
+      tasksStore.updateTaskAPI(taskId)
+   }
+
+   renderTasksList = (): React.ReactNode => {
+      const { t, tasksStore } = this.props
+      const { tasksListWithSearchValue } = tasksStore
+      if (tasksListWithSearchValue.length > 0) {
+         return (
+            <TasksListWrapper className={'tasksList'}>
+               {tasksListWithSearchValue.map(task => (
+                  <TaskListItemWrapper key={task.taskId}>
+                     <TaskItem
+                        taskDetails={task}
+                        handleDeleteTask={this.handleDeleteTask}
+                        handleUpdateTask={this.handleUpdateTask}
+                     />
+                  </TaskListItemWrapper>
+               ))}
+            </TasksListWrapper>
+         )
+      }
+      return <NoTasksFoundText>{t('taskflow.noTasksFound')}</NoTasksFoundText>
+   }
+
+   renderTasksListHeader = (): React.ReactNode => {
+      const { t, handleAddTaskButton } = this.props
 
       return (
          <TasksListHeader>
-            <TasksHeading>Tasks</TasksHeading>
+            <TasksHeading>{t('taskflow.tasks')}</TasksHeading>
             <TasksHeadingItemsWrapper>
                <SearchBoxWrapper>
                   <SearchIcon src={'/images/search-icon.png'} />
                   <SearchBoxField
-                     placeholder={'Search By Task Name'}
+                     placeholder={t('taskflow.searchBoxPlaceholder')}
                      onChange={this.handleSearchInput}
                   />
                </SearchBoxWrapper>
                <AddNewTaskButton
-                  text={'+ New Task'}
+                  text={t('taskflow.addNewTask')}
                   onClick={handleAddTaskButton}
                />
             </TasksHeadingItemsWrapper>
@@ -82,7 +114,7 @@ class TasksList extends Component<Props> {
       )
    }
 
-   render() {
+   render(): React.ReactNode {
       return (
          <TasksListContainer>
             {this.renderTasksListHeader()}
@@ -92,4 +124,4 @@ class TasksList extends Component<Props> {
    }
 }
 
-export default TasksList
+export default withTranslation()(TasksList)

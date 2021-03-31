@@ -1,5 +1,6 @@
 import React from 'react'
 import { observer } from 'mobx-react'
+import { withTranslation, WithTranslation } from 'react-i18next' // eslint-disable-line
 
 import {
    FailureViewContainer,
@@ -7,23 +8,23 @@ import {
    RetryButton
 } from './styledComponents'
 
-interface Props {
+interface Props extends WithTranslation {
    onRetryClick: any
    errorMessage: string
 }
 
 @observer
 class FailureView extends React.Component<Props> {
-   render() {
-      const { onRetryClick, errorMessage } = this.props
+   render(): React.ReactNode {
+      const { t, onRetryClick, errorMessage } = this.props
 
       return (
          <FailureViewContainer>
             <FailureViewMessage>{errorMessage}</FailureViewMessage>
-            <RetryButton onClick={onRetryClick}>Retry</RetryButton>
+            <RetryButton text={t('failureView.retry')} onClick={onRetryClick} />
          </FailureViewContainer>
       )
    }
 }
 
-export default FailureView
+export default withTranslation()(FailureView)

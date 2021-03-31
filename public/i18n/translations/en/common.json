@@ -9,6 +9,9 @@
       "goHome": "Go to Home",
       "imageAlt": "No Room"
    },
+   "failureView": {
+      "retry": "Retry"
+   },
    "common": {
       "errorViewTitle": "Oops! Something Went Wrong",
       "errorViewDescription": "We're having some trouble completing your request. Please try again.",
@@ -20,14 +23,7 @@
       "fallbackUI": {
          "failureText": "We're having some trouble completing your request. We are looking into it."
       },
-      "header": {
-         "home": "Home",
-         "profilePicAltText": "Profile Picture",
-         "logout": "Logout"
-      },
-      "failureView": {
-         "retry": "Retry"
-      },
+
       "datePicker": {
          "selectDate": "Select Date"
       },
@@ -40,13 +36,23 @@
       }
    },
    "loginForm": {
-      "hiTherePleaseLogin": "Hi there, please log in",
       "login": "Login",
-      "getOtp": "Get OTP",
-      "resendOtp": "Resend OTP",
-      "phoneNumber": "Phone Number",
-      "enterOtp": "Enter OTP",
-      "enterNumber": "Enter Number",
-      "invalidMobileNumber": "Invalid Mobile Number"
+      "logout": "Logout",
+      "id": "Id",
+      "name": "Name"
+   },
+   "taskflow": {
+      "tasks": "Tasks",
+      "tasksCompleted": "Tasks Completed",
+      "completedTasks": "Completed Tasks",
+      "notCompletedTasks": "Not Completed Tasks",
+      "taskName": "Task Name",
+      "addNewTask": "+ New Task",
+      "latestCreatedTasks": "Latest Created tasks",
+      "noTaskText": "You have no task.",
+      "emptyTaskPlaceholderText": "Task name should not be empty",
+      "searchBoxPlaceholder": "Search By Task Name",
+      "noTasksFound": "Oops! No tasks found.",
+      "taskDeleteToastText": "Task Deleted Successfully"
    }
 }

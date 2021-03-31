@@ -15,6 +15,14 @@ export const BaseMontserratSemiBoldText = styled(BaseMontserratText)`
 export const BaseMontserratBoldText = styled(BaseMontserratText)`
    font-weight: 700;
 `
+//10px
+
+export const Typo10CornflowerBlueMontserratSemiBoldText = styled(
+   BaseMontserratSemiBoldText
+)`
+   font-size: 10px;
+   color: ${Colors.cornflowerBlue};
+`
 
 //12px
 

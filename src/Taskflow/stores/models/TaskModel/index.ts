@@ -9,13 +9,13 @@ class TaskModel {
    @observable completed!: boolean
    constructor(task: TaskType) {
       this.init()
-      if (task.id) this.taskId = task.id
-      if (task.name) this.taskName = task.name
-      if (task.completed) this.completed = task.completed
+      if (task?.id) this.taskId = task.id
+      if (task?.name) this.taskName = task.name
+      if (task?.completed) this.completed = task.completed
    }
 
    @action.bound
-   init() {
+   init(): void {
       this.taskId = uuidv4()
       this.taskName = ''
       this.completed = false

@@ -1,6 +1,6 @@
 import React from 'react'
-import { API_INITIAL } from '@ib/api-constants'
-import { render, fireEvent } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react' // eslint-disable-line
+import { API_INITIAL } from '../../constants/APIConstants'
 
 import ButtonWithLoader from '.'
 

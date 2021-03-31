@@ -1,6 +1,8 @@
+import React, { Component } from 'react'
 import { observable } from 'mobx'
 import { observer } from 'mobx-react'
-import React, { Component } from 'react'
+import { withTranslation, WithTranslation } from 'react-i18next' // eslint-disable-line
+
 import TaskModel from '../../stores/models/TaskModel'
 
 import {
@@ -16,22 +18,35 @@ import {
    EditIcon
 } from './styledComponents'
 
-interface Props {
+interface Props extends WithTranslation {
    taskDetails: TaskModel
    handleDeleteTask: Function
+   handleUpdateTask: Function
 }
 
 @observer
 class TaskItem extends Component<Props> {
    @observable toggleEdit: boolean
-
+   @observable taskNameRef
    constructor(props) {
       super(props)
       this.toggleEdit = false
+      this.taskNameRef = React.createRef()
+   }
+
+   focusTaskNameInputField = (): void => {
+      setTimeout(() => this.taskNameRef?.current.focus())
    }
 
    handleEditButton = (): void => {
       this.toggleEdit = !this.toggleEdit
+      this.focusTaskNameInputField()
+   }
+
+   handleTaskFieldBlur = (): void => {
+      const { taskDetails, handleUpdateTask } = this.props
+      handleUpdateTask(taskDetails.taskId)
+      this.handleEditButton()
    }
 
    handleCheckBox = (event): void => {
@@ -44,13 +59,13 @@ class TaskItem extends Component<Props> {
       handleDeleteTask(taskDetails.taskId)
    }
 
-   handleTaskNameChange = event => {
+   handleTaskNameChange = (event): void => {
       const { taskDetails } = this.props
       taskDetails.setTaskNameChange(event.target.value)
    }
 
-   render() {
-      const { taskDetails } = this.props
+   render(): React.ReactNode {
+      const { t, taskDetails } = this.props
       const { completed, taskName } = taskDetails
       return (
          <Container>
@@ -70,14 +85,15 @@ class TaskItem extends Component<Props> {
                   >
                      {taskName}
                   </TaskNameText>
-                  {this.toggleEdit && (
-                     <EditableTaskName
-                        placeholder={'Task name should not be empty'}
-                        isEditable={this.toggleEdit}
-                        value={taskName}
-                        onChange={this.handleTaskNameChange}
-                     />
-                  )}
+                  <EditableTaskName
+                     ref={this.taskNameRef}
+                     placeholder={t('taskflow.emptyTaskPlaceholderText')}
+                     isHidden={this.toggleEdit}
+                     value={taskName}
+                     onChange={this.handleTaskNameChange}
+                     isCompleted={completed}
+                     onBlur={this.handleTaskFieldBlur}
+                  />
                </TextNameWrapper>
             </TaskDetailsWrapper>
             <TaskButtonsWrapper>
@@ -95,4 +111,4 @@ class TaskItem extends Component<Props> {
    }
 }
 
-export default TaskItem
+export default withTranslation()(TaskItem)

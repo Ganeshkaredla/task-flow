@@ -16,23 +16,23 @@ class TextArea extends Component<InputProps> {
       this.inputRef = React.createRef()
    }
 
-   validateInput = () => {
+   validateInput = (): void => {
       this.inputRef.current.validateInput()
    }
 
-   onBlur = () => {
+   onBlur = (): void => {
       this.inputRef.current.onBlur()
    }
 
-   onFocus = () => {
+   onFocus = (): void => {
       this.inputRef.current.onFocus()
    }
 
-   focus = () => {
+   focus = (): void => {
       this.inputRef.current.focus()
    }
 
-   render() {
+   render(): React.ReactNode {
       return (
          <BaseInput
             style={textAreaStyles}

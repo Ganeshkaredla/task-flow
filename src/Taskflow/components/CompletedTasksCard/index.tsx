@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react'
 import React, { Component } from 'react'
-import { withTranslation, WithTranslation } from 'react-i18next'
+import { withTranslation, WithTranslation } from 'react-i18next' // eslint-disable-line
 import {
    CardContainer,
    TasksCompletedText,
@@ -16,14 +16,16 @@ interface Props extends WithTranslation {
 
 @observer
 class CompletedTasksCard extends Component<Props> {
-   render() {
-      const { completedTasks, totalTasks } = this.props
+   render(): React.ReactNode {
+      const { t, completedTasks, totalTasks } = this.props
       return (
          <CardContainer>
-            <TasksCompletedText>Tasks Completed</TasksCompletedText>
+            <TasksCompletedText>
+               {t('taskflow.tasksCompleted')}
+            </TasksCompletedText>
             <TasksStatusWrapper>
                <CompletedTasksNumber>{completedTasks}</CompletedTasksNumber>
-               <TotalTasksNumber>/ {totalTasks}</TotalTasksNumber>
+               <TotalTasksNumber>{`/ ${totalTasks}`}</TotalTasksNumber>
             </TasksStatusWrapper>
          </CardContainer>
       )

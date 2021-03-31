@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import ReactModal from 'react-modal'
 
 import Colors from '../../themes/Colors'
-// import CloseIcon from '../../icons/CloseIcon'
 
 import { CloseIconWrapper } from './styledComponents'
 import './styles.scss'
@@ -29,13 +28,13 @@ class BaseModalContainer extends Component<Props, State> {
       hideCloseIcon: false
    }
 
-   openModal = () => {
+   openModal = (): void => {
       this.setState({
          modalIsOpen: true
       })
    }
 
-   closeModal = () => {
+   closeModal = (): void => {
       const { handleClose } = this.props
       this.setState({
          modalIsOpen: false
@@ -43,18 +42,18 @@ class BaseModalContainer extends Component<Props, State> {
       handleClose()
    }
 
-   UNSAFE_componentWillMount() {
+   UNSAFE_componentWillMount(): void {
       ReactModal.setAppElement('body')
    }
 
-   onModalOpen = () => {
+   onModalOpen = (): void => {
       document.body.style.overflow = 'hidden'
    }
-   onModalClose = () => {
+   onModalClose = (): void => {
       document.body.removeAttribute('style')
    }
 
-   render() {
+   render(): React.ReactNode {
       const { children, hideCloseIcon, ...other } = this.props
       const { modalIsOpen } = this.state
 
@@ -69,9 +68,7 @@ class BaseModalContainer extends Component<Props, State> {
             {...other}
          >
             {hideCloseIcon ? null : (
-               <CloseIconWrapper onClick={this.closeModal}>
-                  X {/* <CloseIcon fill={Colors.blueGreyTwo} /> */}
-               </CloseIconWrapper>
+               <CloseIconWrapper onClick={this.closeModal}>X</CloseIconWrapper>
             )}
 
             {children}

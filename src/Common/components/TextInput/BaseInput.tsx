@@ -27,11 +27,11 @@ class BaseInput extends Component<InputProps> {
 
    @observable error = ''
 
-   @action setError(errorText: string) {
+   @action setError(errorText: string): void {
       this.error = errorText
    }
 
-   validateInput = () => {
+   validateInput = (): void => {
       const { validate } = this.props
       if (validate) {
          const result = validate()
@@ -43,24 +43,24 @@ class BaseInput extends Component<InputProps> {
       }
    }
 
-   onBlur = () => {
+   onBlur = (): void => {
       const { shouldValidateOnBlur } = this.props
       if (shouldValidateOnBlur) {
          this.validateInput()
       }
    }
 
-   onFocus = () => {
+   onFocus = (): void => {
       this.setError('')
    }
 
-   focus = () => {
+   focus = (): void => {
       this.inputRef.current.focus()
    }
 
-   isError = () => this.error !== ''
+   isError = (): boolean => this.error !== ''
 
-   render() {
+   render(): React.ReactNode {
       const isValid = !this.isError()
       const { containerClassName, errorId, ...otherProps } = this.props
       return (
@@ -73,7 +73,6 @@ class BaseInput extends Component<InputProps> {
                onBlur={this.onBlur}
                {...otherProps}
             />
-            {/*TODO: need to write the Error Component as common Component */}
             {this.isError() ? (
                <ErrorView id={errorId}>
                   <ErrorMessage>{`* ${this.error}`}</ErrorMessage>

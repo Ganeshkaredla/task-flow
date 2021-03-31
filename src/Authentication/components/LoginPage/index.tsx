@@ -1,12 +1,15 @@
+import React, { Component } from 'react'
 import { observable } from 'mobx'
 import { observer } from 'mobx-react'
-import React, { Component } from 'react'
+import { withTranslation, WithTranslation } from 'react-i18next' // eslint-disable-line
+
 import ButtonWithLoader from '../../../Common/components/ButtonWithLoader'
 import TextInput from '../../../Common/components/TextInput'
 import { validateEmpty } from '../../../Common/utils/ValidationUtils'
+
 import { Container, HeadingText } from './styledComponents'
 
-interface Props {
+interface Props extends WithTranslation {
    handleLogin: Function
    apiStatus: number
 }
@@ -26,6 +29,10 @@ class LoginPage extends Component<Props> {
       this.nameElementRef = React.createRef()
    }
 
+   componentDidMount(): void {
+      this.idElementRef?.current?.focus()
+   }
+
    validateIdField = () => validateEmpty(this.userId)
 
    validateNameField = () => validateEmpty(this.userName)
@@ -43,7 +50,8 @@ class LoginPage extends Component<Props> {
    isReadyToLogin = (): boolean =>
       !this.idElementRef.current.isError && !this.nameElementRef.current.isError
 
-   handleLoginButton = (): void => {
+   handleLoginButton = (event): void => {
+      event.preventDefault()
       this.idElementRef.current.onBlur()
       this.nameElementRef.current.onBlur()
       if (this.isReadyToLogin()) {
@@ -52,27 +60,27 @@ class LoginPage extends Component<Props> {
       }
    }
 
-   render() {
-      const { apiStatus } = this.props
+   render(): React.ReactNode {
+      const { apiStatus, t } = this.props
       return (
          <Container>
-            <HeadingText>Login</HeadingText>
+            <HeadingText>{t('loginForm.login')}</HeadingText>
             <TextInput
                ref={this.idElementRef}
                shouldValidateOnBlur={true}
-               placeholder={'Id'}
+               placeholder={t('loginForm.id')}
                onChange={this.handleIDChange}
                validate={this.validateIdField}
             />
             <TextInput
                ref={this.nameElementRef}
                shouldValidateOnBlur={true}
-               placeholder={'Name'}
+               placeholder={t('loginForm.name')}
                onChange={this.handleNameChange}
                validate={this.validateNameField}
             />
             <ButtonWithLoader
-               text='Login'
+               text={t('loginForm.login')}
                onClick={this.handleLoginButton}
                apiStatus={apiStatus}
             />
@@ -81,4 +89,4 @@ class LoginPage extends Component<Props> {
    }
 }
 
-export default LoginPage
+export default withTranslation()(LoginPage)

@@ -1,15 +1,22 @@
 import { observable, action, computed } from 'mobx'
-import { getAccessToken } from '../../../Authentication/utils/StorageUtils'
+import { v4 as uuidv4 } from 'uuid'
+
 import {
    apiMethods,
    API_FAILED,
    API_FETCHING,
+   API_INITIAL,
    API_SUCCESS
 } from '../../../Common/constants/APIConstants'
 import Config from '../../../Common/constants/EnvironmentConstants'
-import { fetchData } from '../../../Common/utils/APIUtils'
+import {
+   fetchData,
+   getFetchOptionsWithAuth
+} from '../../../Common/utils/APIUtils'
+
 import mockDashboardDetails from '../../fixtures/dashboardDetails.json'
 import mockAllTasksDetails from '../../fixtures/allTasks.json'
+
 import { endPoints } from '../endPoints'
 import TaskModel from '../models/TaskModel'
 import { DashboardTasksDetailsType, TaskType } from '../types'
@@ -37,10 +44,24 @@ class TasksStore {
    }
 
    @action.bound
-   init() {
+   init(): void {
       this.latestTasks = []
       this.tasksList = []
       this.searchValue = ''
+      this.dashboardTasksAPIStatus = API_INITIAL
+      this.dashboardTasksAPIError = null
+
+      this.allTasksAPIStatus = API_INITIAL
+      this.allTasksAPIError = null
+
+      this.createTaskAPIStatus = API_INITIAL
+      this.createTaskAPIError = null
+
+      this.deleteTaskAPIStatus = API_INITIAL
+      this.deleteTaskAPIError = null
+
+      this.updateTaskAPIStatus = API_INITIAL
+      this.updateTaskAPIError = null
    }
 
    @action.bound
@@ -50,7 +71,7 @@ class TasksStore {
 
    @action.bound
    setDashboardTasksAPIError(error): void {
-      this.setDashboardTasksAPIError = error
+      this.dashboardTasksAPIError = error
    }
 
    @action.bound
@@ -65,15 +86,7 @@ class TasksStore {
       onSuccess: Function = () => {},
       onFailure: Function = () => {}
    ) {
-      const options = {
-         method: apiMethods.get,
-         headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: `Bearer ${getAccessToken()}`
-         },
-         body: JSON.stringify({})
-      }
+      const options = getFetchOptionsWithAuth({}, apiMethods.post)
       const url = `${Config.BASE_URL}${endPoints.dashboard}`
       this.setDashboardTasksAPIStatus(API_FETCHING)
       await fetchData(
@@ -81,13 +94,13 @@ class TasksStore {
          options,
          mockDashboardDetails,
          response => {
-            this.setDashboardTasksAPIStatus(API_SUCCESS)
             this.setDashboardTasksAPIResponse(response)
+            this.setDashboardTasksAPIStatus(API_SUCCESS)
             onSuccess()
          },
          error => {
-            this.setDashboardTasksAPIStatus(API_FAILED)
             this.setDashboardTasksAPIError(error)
+            this.setDashboardTasksAPIStatus(API_FAILED)
             onFailure()
          }
       )
@@ -95,12 +108,12 @@ class TasksStore {
 
    @action.bound
    setAllTasksAPIStatus(apiStatus: number): void {
-      this.dashboardTasksAPIStatus = apiStatus
+      this.allTasksAPIStatus = apiStatus
    }
 
    @action.bound
    setAllTasksAPIError(error): void {
-      this.setDashboardTasksAPIError = error
+      this.allTasksAPIError = error
    }
 
    @action.bound
@@ -113,28 +126,20 @@ class TasksStore {
       onSuccess: Function = () => {},
       onFailure: Function = () => {}
    ) {
-      const options = {
-         method: apiMethods.get,
-         headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: `Bearer ${getAccessToken()}`
-         },
-         body: JSON.stringify({})
-      }
+      const options = getFetchOptionsWithAuth({}, apiMethods.get)
       const url = `${Config.BASE_URL}${endPoints.dashboard}`
       await fetchData(
          url,
          options,
          mockAllTasksDetails,
          response => {
-            this.setAllTasksAPIStatus(API_SUCCESS)
             this.setAllTasksAPIResponse(response)
+            this.setAllTasksAPIStatus(API_SUCCESS)
             onSuccess()
          },
          error => {
-            this.setDashboardTasksAPIStatus(API_FAILED)
-            this.setDashboardTasksAPIError(error)
+            this.setAllTasksAPIError(error)
+            this.setAllTasksAPIStatus(API_FAILED)
             onFailure()
          }
       )
@@ -164,18 +169,10 @@ class TasksStore {
       const requestObject = {
          name: taskName
       }
-      const options = {
-         method: apiMethods.get,
-         headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: `Bearer ${getAccessToken()}`
-         },
-         body: JSON.stringify(requestObject)
-      }
+      const options = getFetchOptionsWithAuth(requestObject, apiMethods.post)
       const url = `${Config.BASE_URL}${endPoints.tasks}`
       const mockResponse = {
-         id: Math.random(),
+         id: uuidv4(),
          name: taskName,
          completed: false
       }
@@ -185,13 +182,13 @@ class TasksStore {
          options,
          mockResponse,
          response => {
-            this.setCreateTaskAPIStatus(API_SUCCESS)
             this.setCreateTaskResponse(response)
+            this.setCreateTaskAPIStatus(API_SUCCESS)
             onSuccess()
          },
          error => {
-            this.setCreateTaskAPIStatus(API_FAILED)
             this.setCreateTaskAPIError(error)
+            this.setCreateTaskAPIStatus(API_FAILED)
             onFailure()
          }
       )
@@ -208,7 +205,7 @@ class TasksStore {
    }
 
    @action.bound
-   setDeleteTaskAPIResponse(response: TaskType) {
+   setDeleteTaskAPIResponse(response: TaskType): void {
       const tasksListAfterTaskDeleted = this.tasksList.filter(
          task => task.taskId !== response.id
       )
@@ -221,32 +218,63 @@ class TasksStore {
       onSuccess: Function = () => {},
       onFailure: Function = () => {}
    ) {
-      const options = {
-         method: apiMethods.get,
-         headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: `Bearer ${getAccessToken()}`
-         },
-         body: JSON.stringify({})
-      }
+      const options = getFetchOptionsWithAuth({}, apiMethods.get)
       const url = `${Config.BASE_URL}${endPoints.tasks}/${taskId}`
 
       const mockResponseObject = this.getTaskBasedOnTaskId(taskId) ?? {}
 
+      this.setDeleteTaskAPIStatus(API_FETCHING)
       await fetchData(
          url,
          options,
          mockResponseObject,
          response => {
-            this.setDeleteTaskAPIStatus(API_SUCCESS)
             this.setDeleteTaskAPIResponse(response)
+            this.setDeleteTaskAPIStatus(API_SUCCESS)
             onSuccess()
          },
          error => {
-            this.setDeleteTaskAPIStatus(API_FAILED)
             this.setDeleteTaskAPIError(error)
+            this.setDeleteTaskAPIStatus(API_FAILED)
             onFailure()
+         }
+      )
+   }
+
+   @action.bound
+   setUpdateTaskAPIStatus(apiStatus): void {
+      this.updateTaskAPIStatus = apiStatus
+   }
+
+   @action.bound
+   setUpdateTaskAPIError(error): void {
+      this.updateTaskAPIError = error
+   }
+
+   @action.bound
+   async updateTaskAPI(
+      taskId: string,
+      onSuccess: Function = () => {},
+      onFailure: Function = () => {}
+   ) {
+      const options = getFetchOptionsWithAuth({}, apiMethods.put)
+      const url = `${Config.BASE_URL}${endPoints.tasks}/${taskId}`
+
+      const mockResponseObject = this.getTaskBasedOnTaskId(taskId) ?? {}
+
+      this.setUpdateTaskAPIStatus(API_FETCHING)
+      await fetchData(
+         url,
+         options,
+         mockResponseObject,
+         response => {
+            onSuccess(response)
+            this.setUpdateTaskAPIStatus(API_SUCCESS)
+         },
+         error => {
+            onFailure()
+            this.setUpdateTaskAPIError(error)
+            this.setUpdateTaskAPIStatus(API_FAILED)
          }
       )
    }
@@ -280,7 +308,7 @@ class TasksStore {
    }
 
    @action.bound
-   clearStore() {
+   clearStore(): void {
       this.init()
    }
 

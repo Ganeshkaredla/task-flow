@@ -1,9 +1,13 @@
 import styled from 'styled-components'
+
 import ButtonWithLoader from '../../../Common/components/ButtonWithLoader'
 import TextInput from '../../../Common/components/TextInput'
-import { Typo20BreakerBayMontserratMediumText } from '../../../Common/styleGuide/Typos'
+import {
+   Typo20BreakerBayMontserratMediumText,
+   Typo20DarkGreenMontserratBoldText
+} from '../../../Common/styleGuide/Typos'
 import Colors from '../../../Common/themes/Colors'
-import { customDevice, desktop } from '../../../Common/utils/MixinUtils'
+import { customDevice, minDeviceWidth } from '../../../Common/utils/MixinUtils'
 
 export const TasksListContainer = styled.div`
    display: flex;
@@ -20,7 +24,7 @@ export const TasksListHeader = styled.div`
    width: 100%;
    box-sizing: border-box;
    padding: 24px;
-   ${desktop} {
+   ${minDeviceWidth(1024)} {
       margin-top: 34px;
       padding: 0px;
       flex-direction: row;
@@ -37,7 +41,7 @@ export const TasksHeadingItemsWrapper = styled.div`
    display: flex;
    flex-direction: column;
    width: 100%;
-   ${desktop} {
+   ${minDeviceWidth(1024)} {
       width: auto;
       align-items: center;
       flex-direction: row;
@@ -59,7 +63,7 @@ export const SearchBoxField = styled(TextInput)`
    background-color: ${Colors.darkSolitude};
    box-sizing: border-box;
    padding-left: 40px;
-   ${desktop} {
+   ${minDeviceWidth(1024)} {
       width: 244px;
       margin-right: 12px;
    }
@@ -67,7 +71,7 @@ export const SearchBoxField = styled(TextInput)`
 
 export const AddNewTaskButton = styled(ButtonWithLoader)`
    width: 100%;
-   ${desktop} {
+   ${minDeviceWidth(1024)} {
       margin-top: 0px;
       width: 124px;
    }
@@ -81,7 +85,7 @@ export const TasksListWrapper = styled.ul`
    list-style-type: none;
    background-color: ${Colors.white};
    padding-left: 0;
-   ${desktop} {
+   ${minDeviceWidth(1024)} {
       margin-top: 10px;
       border-radius: 12px;
    }
@@ -91,3 +95,11 @@ export const TasksListWrapper = styled.ul`
 `
 
 export const TaskListItemWrapper = styled.li``
+
+export const NoTasksFoundText = styled(Typo20DarkGreenMontserratBoldText)`
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   width: 100%;
+   height: 30vh;
+`
