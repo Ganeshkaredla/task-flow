@@ -101,6 +101,7 @@ class TasksList extends Component<Props> {
                <SearchBoxWrapper>
                   <SearchIcon src={'/images/search-icon.png'} />
                   <SearchBoxField
+                     data-testid={'search-box'}
                      placeholder={t('taskflow.searchBoxPlaceholder')}
                      onChange={this.handleSearchInput}
                   />

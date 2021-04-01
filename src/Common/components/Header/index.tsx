@@ -27,7 +27,7 @@ class Header extends Component<Props> {
    renderLogoutButton = (): React.ReactNode => {
       const { handleLogout, t } = this.props
       return (
-         <LogoutButton onClick={handleLogout}>
+         <LogoutButton data-testid={'logout'} onClick={handleLogout}>
             {t('loginForm.logout')}
          </LogoutButton>
       )

@@ -66,6 +66,7 @@ class LoginPage extends Component<Props> {
          <Container>
             <HeadingText>{t('loginForm.login')}</HeadingText>
             <TextInput
+               data-testid={'user-id'}
                ref={this.idElementRef}
                shouldValidateOnBlur={true}
                placeholder={t('loginForm.id')}
@@ -73,6 +74,7 @@ class LoginPage extends Component<Props> {
                validate={this.validateIdField}
             />
             <TextInput
+               data-testid={'user-name'}
                ref={this.nameElementRef}
                shouldValidateOnBlur={true}
                placeholder={t('loginForm.name')}
@@ -80,6 +82,7 @@ class LoginPage extends Component<Props> {
                validate={this.validateNameField}
             />
             <ButtonWithLoader
+               data-testid={'login-button'}
                text={t('loginForm.login')}
                onClick={this.handleLoginButton}
                apiStatus={apiStatus}

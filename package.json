@@ -35,9 +35,11 @@
       "styled-components": "4.4.1",
       "typescript": "3.7.2",
       "uuid": "^8.3.2",
+      "cypress": "3.8.0",
       "yarnhook": "0.4.3"
    },
    "scripts": {
+      "e2e:start": "yarn run cypress open",
       "start": "react-scripts start",
       "build": "react-scripts build",
       "test": "IS_JEST=true react-scripts test --silent",

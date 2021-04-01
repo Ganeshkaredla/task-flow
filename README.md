@@ -4,6 +4,15 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+### `yarn`
+
+Installs all node modules and dependencies for the project
+
+
+### `yarn e2e:start`
+
+Runs all cypress test cases
+
 ### `yarn start`
 
 Runs the app in the development mode.<br />

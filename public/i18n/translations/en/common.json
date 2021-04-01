@@ -5,9 +5,7 @@
    "pageNotFound": {
       "404": "404",
       "pageNotFoundText": "Page Not Found",
-      "noManPlaceText": "Oops! You've wandered into no man's land.",
-      "goHome": "Go to Home",
-      "imageAlt": "No Room"
+      "goHome": "Go to Home"
    },
    "failureView": {
       "retry": "Retry"
@@ -22,17 +20,6 @@
       },
       "fallbackUI": {
          "failureText": "We're having some trouble completing your request. We are looking into it."
-      },
-
-      "datePicker": {
-         "selectDate": "Select Date"
-      },
-      "dropDown": {
-         "noOptionsToselect": "No options to select"
-      },
-      "confirmationAlert": {
-         "yes": "Yes",
-         "no": "No"
       }
    },
    "loginForm": {

@@ -72,7 +72,7 @@ class TaskItem extends Component<Props> {
             <TaskDetailsWrapper>
                <CheckBoxWrapper>
                   <CheckBox
-                     data-testid={'testId'}
+                     data-testid={'checkbox'}
                      type='checkbox'
                      checked={completed}
                      onChange={this.handleCheckBox}
@@ -86,6 +86,7 @@ class TaskItem extends Component<Props> {
                      {taskName}
                   </TaskNameText>
                   <EditableTaskName
+                     data-testid={'editable-taskname'}
                      ref={this.taskNameRef}
                      placeholder={t('taskflow.emptyTaskPlaceholderText')}
                      isHidden={this.toggleEdit}
@@ -98,10 +99,12 @@ class TaskItem extends Component<Props> {
             </TaskDetailsWrapper>
             <TaskButtonsWrapper>
                <EditIcon
+                  data-testid={'edit-task'}
                   src={'/images/edit-icon.png'}
                   onClick={this.handleEditButton}
                />
                <DeleteIcon
+                  data-testid={'delete-task'}
                   src={'/images/trash-icon.png'}
                   onClick={this.handleDeleteTask}
                />

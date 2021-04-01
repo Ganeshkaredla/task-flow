@@ -1,17 +1,1 @@
-[
-   {
-      "id": "1",
-      "name": "Refactoring Something",
-      "completed": false
-   },
-   {
-      "id": "2",
-      "name": "Follow Clean code",
-      "completed": true
-   },
-   {
-      "id": "3",
-      "name": "Developed by john doe",
-      "completed": true
-   }
-]
+[]

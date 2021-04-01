@@ -54,12 +54,14 @@ class CreateNewTaskCard extends Component<Props> {
          <CardContainer>
             <AddNewTaskText>{t('taskflow.addNewTask')}</AddNewTaskText>
             <TextInput
+               data-testid={'create-task'}
                ref={this.taskNameFieldRef}
                placeholder={t('taskflow.taskName')}
                onChange={this.handleTaskNameChange}
                validate={this.validateTaskName}
             />
             <AddNewTaskButton
+               data-testid={'add-task'}
                text={t('taskflow.addNewTask')}
                onClick={this.handleAddTaskButton}
                apiStatus={createTaskAPIStatus}

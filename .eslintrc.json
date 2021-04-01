@@ -23,6 +23,7 @@
       "plugin:import/warnings",
       "plugin:import/typescript",
       "prettier/@typescript-eslint",
+      "plugin:cypress/recommended",
       "plugin:prettier/recommended",
       "prettier",
       "prettier/react",

@@ -17,6 +17,7 @@ class NoTasksCard extends Component<Props> {
          <CardContainer>
             <NoTasksText>{t('taskflow.noTaskText')}</NoTasksText>
             <AddNewTaskButton
+               data-testid={'create-new-task'}
                text={t('taskflow.addNewTask')}
                onClick={handleAddTaskModel}
             />
